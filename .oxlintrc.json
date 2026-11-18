@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "options": {
+    "typeAware": true
+  },
+  "ignorePatterns": [
+    "node_modules/**",
+    "service/main.js",
+    "panel/main.js",
+    "panel/observatory.js"
+  ],
+  "rules": {
+    "no-unused-vars": "error",
+    "no-empty": "error"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "name": "agent-browser-openchamber",
+  "version": "1.0.0",
+  "description": "Observability dashboard, live pair-browsing surface, Chrome DevTools relay, @eN element picker, and headless browser provider for agent-browser in OpenChamber",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "bunx openchamber-guest-bundle panel/main.ts panel/main.js && bunx openchamber-guest-bundle panel/observatory.ts panel/observatory.js && bunx openchamber-guest-bundle --node service/main.ts service/main.js",
+    "check": "bunx openchamber-guest-check",
+    "typecheck": "bun check --no-script",
+    "lint": "bunx oxlint",
+    "fmt": "bun fmt --no-script",
+    "test": "bun test test/redact.test.ts test/service.test.ts",
+    "test:ui": "bunx playwright test --config playwright.config.ts"
+  },
+  "openchamber": {
+    "apiVersion": 1,
+    "engines": {
+      "openchamber": ">=2.7.0"
+    },
+    "id": "agent-browser",
+    "name": "Agent Browser",
+    "icon": "compass-3",
+    "contributes": {
+      "capabilities": [
+        "prompt"
+      ],
+      "panel": {
+        "entry": "panel/index.html",
+        "dock": "top",
+        "size": 76
+      },
+      "page": {
+        "entry": "panel/observatory.html",
+        "title": "Agent Browser Observatory"
+      },
+      "statusSection": {
+        "source": {
+          "path": "/status",
+          "interval": 2500
+        },
+        "title": "Agent Browser",
+        "defaultExpanded": true
+      },
+      "mentions": {
+        "label": "Browser"
+      },
+      "instructions": true,
+      "service": {
+        "entry": "service/main.js",
+        "runtime": "host",
+        "provides": [
+          "browser"
+        ],
+        "surface": true,
+        "permissions": {
+          "exec": [
+            "agent-browser"
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@openchamber/sdk": "2.7.0",
+    "ws": "^8.23.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/bun": "^1.4.4",
+    "@types/node": "^26.6.6",
+    "@types/ws": "^8.18.2",
+    "oxlint": "^1.93.0",
+    "oxlint-tsgolint": "^7.0.2007",
+    "playwright": "^1.65.0",
+    "typescript": "^7.0.2"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}
